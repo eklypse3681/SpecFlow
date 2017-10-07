@@ -46,6 +46,9 @@ namespace TechTalk.SpecFlow.Infrastructure
 
             container.RegisterTypeAs<ConfigurationLoader, IConfigurationLoader>();
 
+            container.RegisterTypeAs<ExtensionRegistry<IStepExtensionCalculator>, IExtensionRegistry<IStepExtensionCalculator>>();
+            container.RegisterTypeAs<ExtensionRegistry<IStepDisambiguator>, IExtensionRegistry<IStepDisambiguator>>();
+
             RegisterUnitTestProviders(container);
         }
 
@@ -58,7 +61,6 @@ namespace TechTalk.SpecFlow.Infrastructure
             // needs to invoke methods so requires the context manager
             testThreadContainer.RegisterTypeAs<StepArgumentTypeConverter, IStepArgumentTypeConverter>();
             testThreadContainer.RegisterTypeAs<StepDefinitionMatchService, IStepDefinitionMatchService>();
-
             testThreadContainer.RegisterTypeAs<AsyncTraceListener, ITraceListener>();
             testThreadContainer.RegisterTypeAs<TestTracer, ITestTracer>();
         }

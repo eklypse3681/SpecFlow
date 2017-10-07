@@ -6,18 +6,45 @@ using TechTalk.SpecFlow.Compatibility;
 
 namespace TechTalk.SpecFlow.Bindings.Discovery
 {
+
+    public class ExtensionRegistry<TExtension> : IExtensionRegistry<TExtension>
+    {
+        private readonly List<TExtension> _extensions = new List<TExtension>();
+
+        public void RegisterExtension(TExtension extension)
+        {
+            _extensions.Add(extension);
+        }
+
+        public IEnumerable<TExtension> Extensions => _extensions;
+    }
+
+    public interface IExtensionRegistry<TExtension>
+    {
+        void RegisterExtension(TExtension extension);
+        IEnumerable<TExtension> Extensions { get; }
+    }
+
+    public interface IStepExtensionCalculator
+    {
+        IEnumerable<KeyValuePair<string, object>> GetStepExtensions(BindingSourceMethod bindingSourceMethod, BindingSourceAttribute stepDefinitionAttribute, BindingScope scope);
+    }
+
+
     public abstract class BindingSourceProcessor : IBindingSourceProcessor
     {
         public static string BINDING_ATTR = typeof(BindingAttribute).FullName;
 
         private readonly IBindingFactory bindingFactory;
+        private readonly IExtensionRegistry<IStepExtensionCalculator> _stepExtensionRegistry;
 
         private BindingSourceType currentBindingSourceType = null;
         private BindingScope[] typeScopes = null;
 
-        protected BindingSourceProcessor(IBindingFactory bindingFactory)
+        protected BindingSourceProcessor(IBindingFactory bindingFactory, IExtensionRegistry<IStepExtensionCalculator> stepExtensionRegistry)
         {
             this.bindingFactory = bindingFactory;
+            _stepExtensionRegistry = stepExtensionRegistry;
         }
 
         public bool CanProcessTypeAttribute(string attributeTypeName)
@@ -218,13 +245,17 @@ namespace TechTalk.SpecFlow.Bindings.Discovery
         {
             var stepDefinitionTypes = GetStepDefinitionTypes(stepDefinitionAttribute);
             string regex = stepDefinitionAttribute.TryGetAttributeValue<string>(0);
+            var extensionCalculators = _stepExtensionRegistry.Extensions.ToArray();
+            IReadOnlyDictionary<string, object> extensions = extensionCalculators
+                .SelectMany(ec => ec.GetStepExtensions(bindingSourceMethod, stepDefinitionAttribute, scope))
+                .ToDictionary(ext => ext.Key, ext => ext.Value);
 
             if (!ValidateStepDefinition(bindingSourceMethod, stepDefinitionAttribute))
                 return;
 
             foreach (var stepDefinitionType in stepDefinitionTypes)
             {
-                var stepDefinitionBinding = bindingFactory.CreateStepBinding(stepDefinitionType, regex, bindingSourceMethod.BindingMethod, scope);
+                var stepDefinitionBinding = bindingFactory.CreateStepBinding(stepDefinitionType, regex, bindingSourceMethod.BindingMethod, scope, extensions);
                 ProcessStepDefinitionBinding(stepDefinitionBinding);
             }
         }

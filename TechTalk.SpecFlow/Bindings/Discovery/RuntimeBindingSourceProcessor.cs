@@ -18,7 +18,7 @@ namespace TechTalk.SpecFlow.Bindings.Discovery
         private readonly IErrorProvider errorProvider;
         private readonly ITestTracer testTracer;
 
-        public RuntimeBindingSourceProcessor(IBindingFactory bindingFactory, IBindingRegistry bindingRegistry, IErrorProvider errorProvider, ITestTracer testTracer) : base(bindingFactory)
+        public RuntimeBindingSourceProcessor(IBindingFactory bindingFactory, IBindingRegistry bindingRegistry, IErrorProvider errorProvider, ITestTracer testTracer, IExtensionRegistry<IStepExtensionCalculator> stepExtensionRegistry) : base(bindingFactory, stepExtensionRegistry)
         {
             this.bindingRegistry = bindingRegistry;
             this.errorProvider = errorProvider;

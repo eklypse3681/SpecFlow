@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow.Bindings.Reflection;
+﻿using System.Collections.Generic;
+using TechTalk.SpecFlow.Bindings.Reflection;
 
 namespace TechTalk.SpecFlow.Bindings
 {
@@ -8,7 +9,7 @@ namespace TechTalk.SpecFlow.Bindings
             int hookOrder);
 
         IStepDefinitionBinding CreateStepBinding(StepDefinitionType type, string regexString,
-            IBindingMethod bindingMethod, BindingScope bindingScope);
+            IBindingMethod bindingMethod, BindingScope bindingScope, IReadOnlyDictionary<string, object> extensions);
 
         IStepArgumentTransformationBinding CreateStepArgumentTransformation(string regexString,
             IBindingMethod bindingMethod);
@@ -30,11 +31,11 @@ namespace TechTalk.SpecFlow.Bindings
         }
 
         public IStepDefinitionBinding CreateStepBinding(StepDefinitionType type, string regexString,
-            IBindingMethod bindingMethod, BindingScope bindingScope)
+            IBindingMethod bindingMethod, BindingScope bindingScope, IReadOnlyDictionary<string, object> extensions)
         {
             if (regexString == null)
                 regexString = stepDefinitionRegexCalculator.CalculateRegexFromMethod(type, bindingMethod);
-            return new StepDefinitionBinding(type, regexString, bindingMethod, bindingScope);
+            return new StepDefinitionBinding(type, regexString, bindingMethod, bindingScope, extensions);
         }
 
         public IStepArgumentTransformationBinding CreateStepArgumentTransformation(string regexString,

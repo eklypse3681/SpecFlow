@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
+using System.Data;
 using System.Text.RegularExpressions;
 using TechTalk.SpecFlow.Bindings;
+using TechTalk.SpecFlow.Bindings.Discovery;
 using TechTalk.SpecFlow.Bindings.Reflection;
 
 namespace TechTalk.SpecFlow.Infrastructure
@@ -24,15 +26,23 @@ namespace TechTalk.SpecFlow.Infrastructure
         BindingMatch Match(IStepDefinitionBinding stepDefinitionBinding, StepInstance stepInstance, CultureInfo bindingCulture, bool useRegexMatching = true, bool useParamMatching = true, bool useScopeMatching = true);
     }
 
+    public interface IStepDisambiguator
+    {
+        float Rank { get; }
+        IEnumerable<BindingMatch> FilterMatches(IEnumerable<BindingMatch> initialMatches);
+    }
+
     public class StepDefinitionMatchService : IStepDefinitionMatchService
     {
         private readonly IBindingRegistry bindingRegistry;
         private readonly IStepArgumentTypeConverter stepArgumentTypeConverter;
+        private readonly IExtensionRegistry<IStepDisambiguator> _stepDisambiguatorRegistry;
 
-        public StepDefinitionMatchService(IBindingRegistry bindingRegistry, IStepArgumentTypeConverter stepArgumentTypeConverter)
+        public StepDefinitionMatchService(IBindingRegistry bindingRegistry, IStepArgumentTypeConverter stepArgumentTypeConverter, IExtensionRegistry<IStepDisambiguator> stepDisambiguatorRegistry)
         {
             this.bindingRegistry = bindingRegistry;
             this.stepArgumentTypeConverter = stepArgumentTypeConverter;
+            _stepDisambiguatorRegistry = stepDisambiguatorRegistry;
         }
 
         private object[] CalculateArguments(Match match, StepInstance stepInstance)
@@ -99,7 +109,10 @@ namespace TechTalk.SpecFlow.Infrastructure
         public BindingMatch GetBestMatch(StepInstance stepInstance, CultureInfo bindingCulture, out StepDefinitionAmbiguityReason ambiguityReason, out List<BindingMatch> candidatingMatches)
         {
             candidatingMatches = GetCandidatingBindingsForBestMatch(stepInstance, bindingCulture).ToList();
+
             KeepMaxScopeMatches(candidatingMatches);
+
+            Disambiguate(candidatingMatches);
 
             ambiguityReason = StepDefinitionAmbiguityReason.None;
             if (candidatingMatches.Count > 1)
@@ -110,6 +123,29 @@ namespace TechTalk.SpecFlow.Infrastructure
             if (candidatingMatches.Count == 1 && ambiguityReason == StepDefinitionAmbiguityReason.None)
                 return candidatingMatches[0];
             return BindingMatch.NonMatching;
+        }
+
+        private void Disambiguate(List<BindingMatch> matches)
+        {
+            if (matches.Count == 0 || matches.Count == 1)
+            {
+                return;
+            }
+
+            int i = 0;
+            BindingMatch[] betterMatches = matches.ToArray();
+            var disambiguators = _stepDisambiguatorRegistry.Extensions.OrderBy(d => d.Rank).ToArray();
+            while (betterMatches.Count() != 1 && disambiguators.Length > i)
+            {
+                betterMatches = disambiguators[i].FilterMatches(matches).ToArray();
+                i++;
+            }
+
+            if (betterMatches.Any())
+            {
+                matches.Clear();
+                matches.AddRange(betterMatches);
+            }
         }
 
         protected virtual IEnumerable<BindingMatch> GetCandidatingBindingsForBestMatch(StepInstance stepInstance, CultureInfo bindingCulture)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TechTalk.SpecFlow.Bindings.Reflection;
@@ -11,5 +12,7 @@ namespace TechTalk.SpecFlow.Bindings
     {
         StepDefinitionType StepDefinitionType { get; }
         Regex Regex { get; }
+
+        T GetExtension<T>(string key);
     }
 }

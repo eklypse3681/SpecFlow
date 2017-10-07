@@ -9,6 +9,7 @@ using TechTalk.SpecFlow.Bindings;
 using TechTalk.SpecFlow.Bindings.Reflection;
 using TechTalk.SpecFlow.Infrastructure;
 using FluentAssertions;
+using TechTalk.SpecFlow.Bindings.Discovery;
 
 namespace TechTalk.SpecFlow.RuntimeTests.Infrastructure
 {
@@ -19,7 +20,8 @@ namespace TechTalk.SpecFlow.RuntimeTests.Infrastructure
         private Mock<IStepArgumentTypeConverter> stepArgumentTypeConverterMock;
         private readonly CultureInfo bindingCulture = new CultureInfo("en-US");
         private List<IStepDefinitionBinding> whenStepDefinitions;
-            
+        private Mock<IExtensionRegistry<IStepDisambiguator>> stepDisambiguatorRegistryMock;
+
         [SetUp]
         public void Setup()
         {
@@ -29,11 +31,12 @@ namespace TechTalk.SpecFlow.RuntimeTests.Infrastructure
                 .Returns(whenStepDefinitions);
 
             stepArgumentTypeConverterMock = new Mock<IStepArgumentTypeConverter>();
+            stepDisambiguatorRegistryMock = new Mock<IExtensionRegistry<IStepDisambiguator>>();
         }
 
         private StepDefinitionMatchService CreateSUT()
         {
-            return new StepDefinitionMatchService(bindingRegistryMock.Object, stepArgumentTypeConverterMock.Object);
+            return new StepDefinitionMatchService(bindingRegistryMock.Object, stepArgumentTypeConverterMock.Object, stepDisambiguatorRegistryMock.Object);
         }
 
         private static BindingMethod CreateBindingMethod(string name = "dummy")

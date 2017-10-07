@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{DCE0C3C4-5BC6-4A30-86BE-3FEFF4677A01}"
 EndProject
@@ -60,6 +60,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{D87E7021
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProjectForHoldingTheNUnit2Reference", "Tests\DummyProjectForHoldingTheNUnit2Reference\DummyProjectForHoldingTheNUnit2Reference.csproj", "{DBEEB615-5991-46BC-B274-1516BD0F3D91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitHarness", "NUnitHarness\NUnitHarness.csproj", "{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepDisambiguaton.SpecFlowPlugin", "StepDisambiguatonSpecFlowPlugin\StepDisambiguaton.SpecFlowPlugin.csproj", "{3DE05D96-940F-4D8F-9234-7CEA9140F88B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GherkinModel", "GherkinModel\GherkinModel.csproj", "{3713FB51-ED86-46A6-9639-C049E8031223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitSpecflowRunner", "NUnitSpecflowRunner\NUnitSpecflowRunner.csproj", "{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitHarness.MockData", "NUnitHarness.MockData\NUnitHarness.MockData.csproj", "{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +167,36 @@ Global
 		{DBEEB615-5991-46BC-B274-1516BD0F3D91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DBEEB615-5991-46BC-B274-1516BD0F3D91}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
 		{DBEEB615-5991-46BC-B274-1516BD0F3D91}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEE8DA3-DAD0-45F3-B751-F627DC776F36}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE05D96-940F-4D8F-9234-7CEA9140F88B}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
+		{3713FB51-ED86-46A6-9639-C049E8031223}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
+		{B956B9C2-4E2F-4483-8349-5A6C54A5EB6D}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.VS2010IntegrationTest|Any CPU.ActiveCfg = Release|Any CPU
+		{E99EBED1-AA06-4F89-8ADE-6EEA60C4DD97}.VS2010IntegrationTest|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,5 +212,8 @@ Global
 		{33B3107E-666D-4C31-96C0-745697E51973} = {A10B5CD6-38EC-4D7E-9D1C-2EBA8017E437}
 		{D87E7021-4926-4F5A-AC81-92AFC575FB7E} = {577A0375-1436-446C-802B-3C75C8CEF94F}
 		{DBEEB615-5991-46BC-B274-1516BD0F3D91} = {A10B5CD6-38EC-4D7E-9D1C-2EBA8017E437}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D56567E-59BB-453D-A45A-1199A5DDBC1F}
 	EndGlobalSection
 EndGlobal
