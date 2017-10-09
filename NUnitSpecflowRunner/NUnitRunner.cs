@@ -9,7 +9,7 @@ namespace NUnitSpecflowRunner
     public class NUnitRunner
     {
         private ITestRunner _runner;
-        private Feature _lastFeature;
+        private object _lastFeature;
 
         [OneTimeSetUp]
         public void Setup()
@@ -29,14 +29,13 @@ namespace NUnitSpecflowRunner
         }
 
         [Test, TestCaseSource(typeof(ScenarioFactory), nameof(ScenarioFactory.GetScenarioTestData))]
-        public void ExecuteTests(object obj)
+        public void ExecuteTests(IScenarioExecutor scenario)
         {
-            Scenario scenario = (Scenario) obj;
-            ManageScenarioFeature(scenario.Feature);
+            ManageScenarioFeature(scenario.FeatureReference);
             scenario.Execute(_runner);          
         }
 
-        private void ManageScenarioFeature(Feature feature)
+        private void ManageScenarioFeature(object feature)
         {
             if (_lastFeature != feature)
             {
@@ -50,5 +49,11 @@ namespace NUnitSpecflowRunner
                 _runner.OnFeatureStart(featureInfo);
             }
         }
+    }
+
+    public interface IScenarioExecutor
+    {
+        void Execute(ITestRunner runner);
+        object FeatureReference { get; }
     }
 }

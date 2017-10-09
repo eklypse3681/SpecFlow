@@ -32,7 +32,15 @@ namespace TechTalk.SpecFlow.Bindings
 
         public T GetExtension<T>(string key)
         {
-            return _extensions.TryGetValue(key, out object o) && o is T ext ? ext : default(T);
+            object o;
+            if(_extensions.TryGetValue(key, out o))
+            {
+                if(o is T)
+                {
+                    return (T)o;
+                }
+            }
+            return default(T);
         }
     }
 }

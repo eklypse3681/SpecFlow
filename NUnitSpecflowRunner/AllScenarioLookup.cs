@@ -30,7 +30,9 @@ namespace NUnitHarness
 
         public IEnumerable<Scenario> FindMatchingScenarios(string title)
         {
-            return _scenarios.TryGetValue(title, out List<Scenario> list) 
+
+            List<Scenario> list;
+            return _scenarios.TryGetValue(title, out list) 
                 ? list 
                 : Enumerable.Empty<Scenario>();
         }
